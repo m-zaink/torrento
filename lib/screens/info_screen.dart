@@ -25,7 +25,7 @@ class _InfoScreenState extends State<InfoScreen> {
             buildText(text: ''),
             buildColorInfoRow(
               text: 'Running torrent',
-              color: Colors.indigo,
+              color: Colors.green,
             ),
             buildText(text: ''),
             buildColorInfoRow(
@@ -35,7 +35,7 @@ class _InfoScreenState extends State<InfoScreen> {
             buildText(text: ''),
             buildColorInfoRow(
               text: 'Completed torrent',
-              color: Colors.green,
+              color: Colors.indigo,
             ),
           ],
         ),

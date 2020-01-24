@@ -21,3 +21,16 @@ class PauseTorrent extends TorrentHandlerEvent {
 class RemoveTorrent extends TorrentHandlerEvent {
   RemoveTorrent({String torrentHash}) : super(torrentHash: torrentHash);
 }
+
+class RemoveAllTorrents extends TorrentHandlerEvent {
+
+}
+
+class StartAllTorrents extends TorrentHandlerEvent {
+
+}
+
+class StopAllTorrents extends TorrentHandlerEvent {
+
+}
+

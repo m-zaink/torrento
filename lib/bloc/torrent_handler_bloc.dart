@@ -28,6 +28,15 @@ class TorrentHandlerBloc
       case RemoveTorrent:
         await qbitTorrentController.removeTorrent(event.torrentHash);
         break;
+      case StartAllTorrents:
+        await qbitTorrentController.startAllTorrents();
+        break;
+      case StopAllTorrents:
+        await qbitTorrentController.stopAllTorrents();
+        break;
+      case RemoveAllTorrents:
+        await qbitTorrentController.removeAllTorrents();
+        break;
       default:
         List<dynamic> rawTorrents = await qbitTorrentController.getTorrentsList();
         yield UpdateTorrents(rawTorrents);

@@ -1,6 +1,7 @@
-import 'dart:async';
+import 'dart:io';
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:torrento_app/bloc/bloc.dart';
@@ -16,7 +17,6 @@ class TorrentTile extends StatefulWidget {
 
   @override
   _TorrentTileState createState() => _TorrentTileState(torrent);
-
 }
 
 class _TorrentTileState extends State<TorrentTile> {
@@ -26,8 +26,6 @@ class _TorrentTileState extends State<TorrentTile> {
   double progress;
   Color activeTrackColor;
 
-
-
   _TorrentTileState(dynamic torrent) {
     this.torrentHash = torrent['hash'];
     this.title = torrent['name'];
@@ -35,15 +33,6 @@ class _TorrentTileState extends State<TorrentTile> {
     this.progress = torrent['progress'].toDouble();
     this.activeTrackColor = getColorFor(status: status);
     print('title $title');
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      refreshTorrentsFrom(context: context);
-    });
-    refreshTorrentsFrom(context: context);
   }
 
   @override
@@ -75,7 +64,7 @@ class _TorrentTileState extends State<TorrentTile> {
         },
         borderRadius: BorderRadius.circular(5.0),
         child: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -121,15 +110,55 @@ class _TorrentTileState extends State<TorrentTile> {
     log(status);
     switch (status) {
       case 'downloading':
-        return Colors.indigo;
-      case 'checking':
         return Colors.green;
+      case 'checking':
+        return Colors.indigo;
       default:
         return Colors.orange;
     }
   }
 
-  AlertDialog buildAlertDialog({String torrentHash}) {
+  Widget buildAlertDialog({String torrentHash}) {
+    if (Platform.isIOS) {
+      return CupertinoAlertDialog(
+          title: Text(
+            'Are You Sure?',
+            style: TextStyle(color: Colors.indigo),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                    '\nThis will remove the torrent from the client.\n\nClick \'Yes\' to confirm.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            CupertinoButton(
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(
+                      color: Colors.indigo, fontWeight: FontWeight.w500),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+            CupertinoButton(
+              child: Text(
+                'Yes',
+                style: TextStyle(
+                    color: Colors.indigo, fontWeight: FontWeight.w300),
+              ),
+              onPressed: () {
+                BlocProvider.of<TorrentHandlerBloc>(context)
+                    .add(RemoveTorrent(torrentHash: torrentHash));
+                Navigator.of(context).pop();
+              },
+            ),
+          ]);
+    }
+
     return AlertDialog(
       title: Text('Are you sure?'),
       content: SingleChildScrollView(
@@ -163,15 +192,6 @@ class _TorrentTileState extends State<TorrentTile> {
           },
         ),
       ],
-    );
-  }
-
-  void refreshTorrentsFrom({BuildContext context}) {
-    Timer.periodic(
-      Duration(seconds: 1),
-      (Timer timer) => BlocProvider.of<TorrentHandlerBloc>(context).add(
-        RefreshTorrentsEvent(),
-      ),
     );
   }
 }
