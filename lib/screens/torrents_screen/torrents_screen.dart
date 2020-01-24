@@ -135,6 +135,7 @@ class _TorrentPageState extends State<TorrentPage> {
             onTap: () {
               BlocProvider.of<TorrentHandlerBloc>(context)
                   .add(StartAllTorrents());
+              Navigator.pop(context);
             },
             leading: Icon(
               Icons.play_arrow,
@@ -146,6 +147,7 @@ class _TorrentPageState extends State<TorrentPage> {
             onTap: () {
               BlocProvider.of<TorrentHandlerBloc>(context)
                   .add(StopAllTorrents());
+              Navigator.pop(context);
             },
             leading: Icon(
               Icons.stop,
@@ -159,6 +161,7 @@ class _TorrentPageState extends State<TorrentPage> {
                 context: context,
                 child: buildAlertDialog(context: context),
               );
+//              Navigator.pop(context);
             },
             leading: Icon(
               Icons.bubble_chart,
@@ -209,6 +212,7 @@ class _TorrentPageState extends State<TorrentPage> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               }),
           CupertinoButton(
             child: Text(
@@ -219,6 +223,7 @@ class _TorrentPageState extends State<TorrentPage> {
             onPressed: () {
               BlocProvider.of<TorrentHandlerBloc>(context)
                   .add(RemoveAllTorrents());
+              Navigator.of(context).pop();
               Navigator.of(context).pop();
             },
           ),
@@ -244,6 +249,7 @@ class _TorrentPageState extends State<TorrentPage> {
           child: Text('Cancel'),
           onPressed: () {
             Navigator.of(context).pop();
+            Navigator.of(context).pop();
           },
         ),
         FlatButton(
@@ -255,6 +261,7 @@ class _TorrentPageState extends State<TorrentPage> {
           onPressed: () {
             BlocProvider.of<TorrentHandlerBloc>(context)
                 .add(RemoveAllTorrents());
+            Navigator.of(context).pop();
             Navigator.of(context).pop();
           },
         ),
