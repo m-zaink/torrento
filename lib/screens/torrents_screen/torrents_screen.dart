@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:torrento_app/bloc/bloc.dart';
 import 'package:torrento_app/bloc/torrent_handler_bloc.dart';
 import 'package:torrento_app/screens/info_screen.dart';
-import 'package:torrento_app/screens/loading_screen.dart';
 import 'package:torrento_app/screens/torrents_screen/widgets/torrent_tile.dart';
 
 class TorrentsScreen extends StatefulWidget {
@@ -64,20 +63,17 @@ class _TorrentPageState extends State<TorrentPage> {
           ? Center(
               child: Text('No Torrents To Show'),
             )
-          : Container(
-              child: ListView.builder(
-                itemCount: widget.torrents.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: <Widget>[
-                      TorrentTile(
-                        torrent: widget.torrents[index],
-                      ),
-                      buildDivider(),
-                    ],
+          : ListView.builder(
+              itemCount: widget.torrents.length * 2,
+              itemBuilder: (context, index) {
+                if (index % 2 == 0) {
+                  return TorrentTile(
+                    torrent: widget.torrents[index ~/ 2],
                   );
-                },
-              ),
+                } else {
+                  return buildDivider();
+                }
+              },
             ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.refresh),
@@ -104,14 +100,35 @@ class _TorrentPageState extends State<TorrentPage> {
               onTap: () {
                 BlocProvider.of<AuthenticationBloc>(context).add(LogoutEvent());
               },
+              leading: Icon(
+                Icons.play_arrow,
+                color: Colors.indigo,
+              ),
+              title: Text('Start All'),
+            ),
+            ListTile(
+              onTap: () {
+                BlocProvider.of<AuthenticationBloc>(context).add(LogoutEvent());
+              },
+              leading: Icon(
+                Icons.stop,
+                color: Colors.indigo,
+              ),
+              title: Text('Stop All'),
+            ),
+            ListTile(
+              onTap: () {
+                BlocProvider.of<AuthenticationBloc>(context).add(LogoutEvent());
+              },
               leading: Transform.rotate(
                 angle: pi,
                 child: Icon(
                   Icons.exit_to_app,
+                  color: Colors.indigo,
                 ),
               ),
               title: Text('Log Out'),
-            )
+            ),
           ],
         ),
       ),

@@ -12,7 +12,7 @@ import 'package:torrento_app/screens/torrents_screen/widgets/torrent_title.dart'
 class TorrentTile extends StatefulWidget {
   final dynamic torrent;
 
-  TorrentTile({this.torrent});
+  TorrentTile({this.torrent, Key key}) : super(key: key);
 
   @override
   _TorrentTileState createState() => _TorrentTileState(torrent);
@@ -32,7 +32,7 @@ class _TorrentTileState extends State<TorrentTile> {
     this.torrentHash = torrent['hash'];
     this.title = torrent['name'];
     this.status = getStatus(state: torrent['state']);
-    this.progress = torrent['progress'];
+    this.progress = torrent['progress'].toDouble();
     this.activeTrackColor = getColorFor(status: status);
     print('title $title');
   }
@@ -40,6 +40,9 @@ class _TorrentTileState extends State<TorrentTile> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      refreshTorrentsFrom(context: context);
+    });
     refreshTorrentsFrom(context: context);
   }
 
