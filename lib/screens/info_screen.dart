@@ -29,7 +29,12 @@ class _InfoScreenState extends State<InfoScreen> {
             ),
             buildText(text: ''),
             buildColorInfoRow(
-              text: 'Paused torrent',
+              text: 'Stopped (Paused) torrent',
+              color: Colors.red,
+            ),
+            buildText(text: ''),
+            buildColorInfoRow(
+              text: 'Other statuses of torrent',
               color: Colors.orange,
             ),
             buildText(text: ''),

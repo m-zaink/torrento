@@ -153,7 +153,7 @@ class _TorrentPageState extends State<TorrentPage> {
               Icons.stop,
               color: Colors.indigo,
             ),
-            title: Text('Stop All'),
+            title: Text('Stop (Pause) All'),
           ),
           ListTile(
             onTap: () {

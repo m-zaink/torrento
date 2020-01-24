@@ -113,6 +113,8 @@ class _TorrentTileState extends State<TorrentTile> {
         return Colors.green;
       case 'checking':
         return Colors.indigo;
+      case 'paused':
+        return Colors.red;
       default:
         return Colors.orange;
     }
